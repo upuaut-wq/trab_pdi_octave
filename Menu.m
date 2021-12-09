@@ -24,7 +24,7 @@ p2 = uipanel("title", " ▷ Escolher Filtro ◁ ", "position", [.0 -.013 1 0.85]
 b1 = uicontrol("parent", p, "string", "Imagem Original","position", [10 10 155 36],'callback',(@ShowImage));
 b2 = uicontrol("parent", p, "string", "Carregar Arquivo","position",[170 10 155 36],'callback',(@LoadImage));
 b3 = uicontrol("parent", p, "string", "Historico","position",[330 10 150 36],'callback',(@Historico));
-
+b0 = uicontrol("parent", p, "string", "Show I","position",[485 10 60 36],'callback',(@ShowI));
 %Filtros
 b4 = uicontrol("parent", p2, "string", "✩Limiarizaçao ","position",[10 295 155 36],'callback',(@Limiarizacao));
 b5 = uicontrol("parent", p2, "string","✩Escala de Cinza","position", [10 250 155 36],'callback',(@EscalaCinza));

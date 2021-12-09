@@ -140,6 +140,12 @@ defaults = {"1.10", "2.20", "3.30"};
 rowscols = [1,10; 2,20; 3,30];
 dims = inputdlg (prompt, "Enter Box Dimensions", ...
                  rowscols, defaults);
+t = 3;
+div = t*t;
+h;
 
-
+for l = 1:t;
+  g{l} = -1;
+  if(i = 3/2 +1)
+endfor
 

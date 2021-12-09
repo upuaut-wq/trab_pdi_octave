@@ -19,7 +19,7 @@ function Historico()
     disp(sel);
     disp(ok);
     if(ok == 1)
-      i = hist(sel);
+      i = hist{sel};
       qt = sel;
     endif
   endif
@@ -37,6 +37,21 @@ function ShowImage()
     warndlg ("Sem Sem imagem carregada.");
   else    
     figure, subplot(1,1,1);imshow(hist{1});
+    title(hist_filt{1});
+  endif
+end
+
+%%Mostrar Imagem Carregada
+function ShowI()
+  global hist;
+  global qt;
+  global i;
+  global hist_filt;
+  
+   if(qt == 0)
+    warndlg ("Sem Sem imagem carregada.");
+  else    
+    figure, subplot(1,1,1);imshow(i);
     title(hist_filt{1});
   endif
 end
@@ -79,7 +94,7 @@ function Limiarizacao()
      rowscols = [1,10];
      conf = inputdlg (prompt, "Limiar", ...
                      rowscols, defaults);
-     
+     disp(isempty(conf));
      if(isempty(conf) == 1)
         limiar = 0.5;
       else  
@@ -151,7 +166,7 @@ function PassaAlta()
      
 
      
-     if(isempty(conf) == 0)
+     if(isempty(conf) == 1)
         tam = 3;
         mult = 1;
       else  
