@@ -21,6 +21,9 @@ function Historico()
     if(ok == 1)
       i = hist{sel};
       qt = sel;
+      
+      figure(2), subplot(1,1,1);imshow(hist{sel});
+      title(hist_filt{sel});
     endif
   endif
 end
@@ -36,7 +39,7 @@ function ShowImage()
    if(qt == 0)
     warndlg ("Sem Sem imagem carregada.");
   else    
-    figure, subplot(1,1,1);imshow(hist{1});
+    figure(3), subplot(1,1,1);imshow(hist{1});
     title(hist_filt{1});
   endif
 end
@@ -51,8 +54,8 @@ function ShowI()
    if(qt == 0)
     warndlg ("Sem Sem imagem carregada.");
   else    
-    figure, subplot(1,1,1);imshow(i);
-    title(hist_filt{1});
+    figure(2), subplot(1,1,1);imshow(i);
+    title(hist_filt{qt});
   endif
 end
 
@@ -72,7 +75,7 @@ function LoadImage()
     hist{qt} = i;
     hist_filt{qt} = "Imagem Original";
     %%mostra
-    figure, subplot(1,1,1);imshow(i);
+    figure(2), subplot(1,1,1);imshow(i);
     title('Imagem Carregada');
 end
 
@@ -127,7 +130,7 @@ function EscalaCinza()
   else
       if (isrgb(i) == true)
         i = rgb2gray(i);
-        figure, subplot(1,1,1);imshow(i);
+        figure(2), subplot(1,1,1);imshow(i);
         title("Escala de Cinza");
       
         %%Armazena historico
@@ -178,7 +181,7 @@ function PassaAlta()
       
       h = [-1/tam -1/tam -1/tam; -1/tam 8/tam -1/tam; -1/tam -1/tam -1/tam;];
       i = imfilter(i,h)*mult;
-      figure, subplot(1,1,1);imshow(i);
+      figure(2), subplot(1,1,1);imshow(i);
       title(strcat ("Passa Alta =",num2str(tam)," | img*",num2str(mult)));
       
       %%Armazena historico
@@ -237,7 +240,7 @@ function ReforcoPassaAlta()
       A=2;
       i=(A-multImg)*i+i2;
       
-      figure, subplot(1,1,1);imshow(i);
+      figure(2), subplot(1,1,1);imshow(i);
       title(strcat ("Reforço de Imagem"," PA*",num2str(mult),"| A-",num2str(multImg),"*I+IO"));
 
       %%Armazena historico
@@ -248,12 +251,201 @@ function ReforcoPassaAlta()
 end
 
 
+%%Media
+function Media()
+ global i;
+ global hist;
+ global qt;
+ global hist_filt;
+ 
+   if(qt == 0)
+    warndlg ("Sem imagem carregada.");
+  else
+         
+     %% Cria Caixa de configuração
+     prompt = {"Tamanho matriz"};
+     defaults = {"3"};
+     rowscols = [1,10];
+     conf = inputdlg (prompt, "Tamanho Matriz[3,5,7,9,11]", ...
+                     rowscols, defaults);
+     disp(isempty(conf));
+     if(isempty(conf) == 1)
+        mat_t = 3;
+      else  
+        mat_t = str2num(conf{1,1});
+      endif
+      
+      % %Aplica media
+      h = fspecial('average',mat_t)
+      i = imfilter(i,h);
+      
+      figure(2), subplot(1,1,1);imshow(i);
+      title(strcat ("Media =",num2str(mat_t)));
+      
+      %%Armazena historico
+      qt = qt+1;
+      hist{qt} = i;
+      hist_filt{qt} = "Media";  
+     endif
+end
+
+%%Media
+function Mediana()
+ global i;
+ global hist;
+ global qt;
+ global hist_filt;
+ 
+   if(qt == 0)
+    warndlg ("Sem imagem carregada.");
+  else
+         
+     %% Cria Caixa de configuração
+     prompt = {"Tamanho matriz"};
+     defaults = {"3"};
+     rowscols = [1,10];
+     conf = inputdlg (prompt, "Tamanho Matriz[3,5,7,9,11]", ...
+                     rowscols, defaults);
+     disp(isempty(conf));
+     
+     if(isempty(conf) == 1)
+        mat_t = 3;
+      else  
+        mat_t = str2num(conf{1,1});
+      endif
+      disp(mat_t);
+      % %Aplica media
+      i = rgb2gray(i);
+      i2 = medfilt2(i,true(mat_t));
+      
+      figure(2), subplot(1,1,1);imshow(i2);
+      title(strcat ("Mediana =",num2str(mat_t)));
+      
+      %%Armazena historico
+      qt = qt+1;
+      hist{qt} = i2;
+      hist_filt{qt} = "Mediana";  
+      i = i2;
+     endif
+end
+
+
+%%Prewitt
+function Prewitt()
+ global i;
+ global hist;
+ global qt;
+ global hist_filt;
+ 
+   if(qt == 0)
+    warndlg ("Sem imagem carregada.");
+  else
+    
+      
+      % %Aplica Prewitt
+      h = fspecial('prewitt')
+      
+      %%Pergunta Traspor
+      btn = questdlg ("Transpor Matriz?","Deseja Transpor Matriz?","Sim", "Não","Não");
+
+      if(strcmp(btn,"Sim"))
+          h = h';
+      endif
+      
+     
+      i = imfilter(i,h);
+      
+      figure(2), subplot(1,1,1);imshow(i);
+      title(strcat ("Prewitt T=",btn));
+      
+      %%Armazena historico
+      qt = qt+1;
+      hist{qt} = i;
+      hist_filt{qt} = "Prewitt";  
+     endif
+end
+
+
+%%Media
+function PrewittHV()
+ global i;
+ global hist;
+ global qt;
+ global hist_filt;
+ 
+   if(qt == 0)
+    warndlg ("Sem imagem carregada.");
+  else
+    
+      
+      % %Aplica Prewitt
+      h = fspecial('prewitt')
+      
+ 
+      i = imfilter(i,h);
+      i2 = imfilter(i,h');
+      
+      i = i+i2;
+ 
+      figure(2), subplot(1,1,1);imshow(i);
+      title(strcat ("Prewitt T=",btn));
+      
+      %%Armazena historico
+      qt = qt+1;
+      hist{qt} = i;
+      hist_filt{qt} = "Prewitt";  
+     endif
+end
+
+
+%%Sobel
+function Sobel()
+ global i;
+ global hist;
+ global qt;
+ global hist_filt;
+ 
+   if(qt == 0)
+    warndlg ("Sem imagem carregada.");
+  else
+         
+  
+      
+      % %Aplica media
+      h = fspecial('sobel');
+      
+      %%Pergunta Traspor
+      btn = questdlg ("Transpor Matriz?","Deseja Transpor Matriz?","Sim", "Não","Não");
+
+      if(strcmp(btn,"Sim"))
+          h = h';
+      endif
+      
+      
+      disp(h);
+      i = imfilter(i,h);
+      
+      figure(2), subplot(1,1,1);imshow(i);
+      title(strcat ("Sobel,T=",btn));
+      
+      %%Armazena historico
+      qt = qt+1;
+      hist{qt} = i;
+      hist_filt{qt} = "Sobel";  
+     endif
+end
 
 
 
-
-
-
+% median
+%I = imread('cap.jpeg');
+%I = rgb2gray(I);
+%med= medfilt2(I,true(20));
+%figure(5);
+%imshow(med);
+%title('Mediana');
+%zoom(1.2);
+%% PB(media) e Mediana
 
 
 
