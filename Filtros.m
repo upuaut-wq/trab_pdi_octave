@@ -665,7 +665,7 @@ function Edge()
   endif
 end
 
-%%Media
+%%SaltPapper
 function SaltPapper()
  global i;
  global hist;
@@ -765,7 +765,7 @@ function Poisson()
 end
 
 
-%%Reforco Imagem passa Alta
+%%Gaussian
 function Gaussian()
  global i;
  global hist;
@@ -809,18 +809,113 @@ function Gaussian()
 end
 
 
+%%Watershed
+function Watershed()
+ global i;
+ global hist;
+ global qt;
+ global hist_filt;
+ 
+   if(qt == 0)
+    warndlg ("Sem imagem carregada.");
+   else
+         
+     %% Cria Caixa de configuração
+     prompt = {"con [4 6 8 18 26]"};
+     defaults = {"4"};
+     rowscols = [1,7];
+     conf = inputdlg (prompt, "Watershed", ...
+                     rowscols, defaults);
+    
+    
+     if(isempty(conf) == 1)
+        conn = 4;
+       
+
+      else  
+        conn = str2num(conf{1,1});
+  
+        
+      endif  
+    
+
+      i =watershed (i,conn);
+
+      
+      figure(2), subplot(1,1,1);imshow(i);
+      title(strcat ("Watershed",",conn =",num2str(conn)));
+
+      %%Armazena historico
+      qt = qt+1;
+      hist{qt} = i;
+      hist_filt{qt} = "Watershed";  
+     endif
+end
+
+
+%%zerocross
+function Zerocross()
+ global i;
+ global hist;
+ global qt;
+ global hist_filt;
+ 
+   if(qt == 0)
+    warndlg ("Sem imagem carregada.");
+  else
+    list = {"average","disk","gaussian","log","laplacian","unsharp","motion","sobel","prewitt","kirsch"};
+   
+    [sel, ok] = listdlg ("ListString", list,"SelectionMode","Single");  
+  
+    if(ok == 1)
+       %% Cria Caixa de configuração
+     prompt = {"thresh"};
+     defaults = {"0"};
+     rowscols = [1,7];
+     conf = inputdlg (prompt, "zerocross", ...
+                     rowscols, defaults);
+    
+    
+     if(isempty(conf) == 1)
+        thresh = 0;
+      else  
+        thresh = str2num(conf{1,1});
+      endif  
+    
+       % %Aplica media
+       i = rgb2gray(i)
+       h = fspecial(list{sel});
+       i = edge(i,'zerocross',thresh,h);
+  
+      figure(2), subplot(1,1,1);imshow(i);
+      title("zerocross");
+      
+      %%Armazena historico
+      qt = qt+1;
+      hist{qt} = i;
+      hist_filt{qt} = "zerocross";  
+      
+    endif
+  endif
+end
 
 
 
 
 
 
+##
 ##I = imread('rosto.jpeg');
-##figure, imshow(I);
-##title('Original');
-##I = edge(I,'zerocross',0);
-##figure, imshow(I);
-##title('zerocross');
+####figure, imshow(I);
+####title('Original');
+####I =  watershed (I,3);
+####figure, imshow(I);
+####title('zerocross');
+##
+##
+##H = [-1/9 -1/9 -1/9;-1/9 8/9 -1/9;-1/9 -1/9 -1/9;]
+##    j = edge(rgb2gray(I),'zerocross',0,H);
+##figure(444), imshow(j);
 
 
 
