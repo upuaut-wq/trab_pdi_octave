@@ -4,7 +4,11 @@ global hist;
 global qt;
 global hist_filt;
 global show_select;
+global cont_hist;
 
+
+cont_imag = 2000;
+cont_hist = 200;
 show_select=1000;
 qt = 0;
 
@@ -24,7 +28,7 @@ p2 = uipanel("title", " ▷ Escolher Filtro ◁ ", "position", [.0 -.013 1 0.85]
 %%Botoes do menu
 b1 = uicontrol("parent", p, "string", "Imagem Original","position", [10 10 150 30],'callback',(@ShowImage));
 b2 = uicontrol("parent", p, "string", "Carregar Arquivo","position",[170 10 150 30],'callback',(@LoadImage));
-b3 = uicontrol("parent", p, "string", "Historico","position",[330 10 150 30],'callback',(@Historico));
+b3 = uicontrol("parent", p, "string", "Histórico","position",[330 10 150 30],'callback',(@Historico));
 b0 = uicontrol("parent", p, "string", "Show N","position",[485 10 60 30],'callback',(@ShowN));
 %Filtros
 b4 = uicontrol("parent", p2, "string", "✩Limiarizaçao ","position",[10 295 150 30],'callback',(@Limiarizacao));
@@ -50,4 +54,11 @@ b19 = uicontrol("parent", p2, "string","✩Poisson","position", [330 190 150 30]
 b20 = uicontrol("parent", p2, "string","✩Gaussian","position", [330 155 150 30],'callback',(@Gaussian));
 b21 = uicontrol("parent", p2, "string","✩Watershed","position", [330 120 150 30],'callback',(@Watershed));
 b22 = uicontrol("parent", p2, "string","✩Zerocross","position", [330 85 150 30],'callback',(@Zerocross));
-
+b23 = uicontrol("parent", p2, "string","✩IMG * x","position", [330 50 150 30],'callback',(@IMGmult));
+b24 = uicontrol("parent", p2, "string","✩FiltFspecial","position", [170 50 150 30],'callback',(@FiltFspecial));
+b25 = uicontrol("parent", p2, "string","✩~IMG","position", [10 50 150 30],'callback',(@InvertIMG));
+b26 = uicontrol("parent", p2, "string","✩Mov N->I","position", [10 15 150 30],'callback',(@MovIN));
+b27 = uicontrol("parent", p2, "string","✩Ajuste Hist","position", [10 15 150 30],'callback',(@AjustHist));
+b28 = uicontrol("parent", p2, "string","✩Imfill","position", [170 15 150 30],'callback',(@Imfill_h));
+b29 = uicontrol("parent", p2, "string","✩Bwareaopen","position", [170 15 150 30],'callback',(@Bwareaopen_h));
+b30 = uicontrol("parent", p2, "string","✩RecObjetos","position", [330 15 150 30],'callback',(@RecObjetos));

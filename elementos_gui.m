@@ -110,10 +110,11 @@ f = figure;
 b1 = uicontrol (f, "style", "popupmenu",
                 "string", "Not in the group", ...
                 "Position", [ 10 50 100 50 ],"list");
-                
-h = uicontrol (f,'style', 'popupmenu', 'string', 'A|B', 'value', 0)
+
+   f = figure;             
+h = uicontrol (f,'style', 'popupmenu', 'string', 'A|B', 'value', 1)
 % Is the object created? If so what does the following return?
-get (h, 'value')
+disp(get (h, 'value'));
 
 h = uicontrol ('style', 'popupmenu', 'string', 'A|B', 'value', 5)
 % Is the object created? If so what does the following return?
@@ -129,11 +130,18 @@ f = figure;
 b3 = uicontrol ("style", "slider", ...
                 "string", "Not in the group", ...
                 "Position", [ 10 10 500 20 ],"Min",0,"Max",100);
+
+                
+                
+                
                 
 my_options = {"An item", "another", "yet another"};
 [sel, ok] = listdlg ("ListString", my_options,
                      "SelectionMode", "Multiple");
-                     
+        
+my_options = uicontrol ("style", "slider",
+                            "string", "slider",
+                             "Position", [ 10 10 500 20 ]);        
                      
 prompt = {"Width", "Height", "Depth"};
 defaults = {"1.10", "2.20", "3.30"};
