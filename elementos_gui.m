@@ -7,7 +7,7 @@ helpdlg ("Algum texto útil para o usuário.");
 helpdlg ("Algum texto útil \ ncom duas linhas.");
 helpdlg ({"Algum texto útil", "com duas linhas."});
 helpdlg ("Algum texto útil para o usuário.", "Legenda extravagante");
-
+ 
 %Erros
 errordlg ("Ocorreu algum erro extravagante.");
 errordlg ("Algum erro extravagante \ ncom duas linhas.");
